@@ -15,7 +15,7 @@ use Mandango\MandangoBundle\Form\ChoiceList\MandangoDocumentChoiceList;
 use Mandango\MandangoBundle\Form\DataTransformer\MandangoDocumentToIdTransformer;
 use Mandango\MandangoBundle\Form\DataTransformer\MandangoDocumentsToArrayTransformer;
 use Mandango\MandangoBundle\Form\EventListener\MergeGroupListener;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Mandango\Mandango;
 
@@ -41,7 +41,7 @@ class MandangoDocumentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['multiple']) {
             $builder
@@ -88,7 +88,7 @@ class MandangoDocumentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'choice';
     }
