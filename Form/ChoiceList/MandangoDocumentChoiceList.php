@@ -11,7 +11,7 @@
 
 namespace Mandango\MandangoBundle\Form\ChoiceList;
 
-use Symfony\Component\Form\Extension\Core\ChoiceList\ArrayChoiceList;
+use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
 use Mandango\Query;
 use Mandango\Mandango;
 
@@ -20,7 +20,7 @@ use Mandango\Mandango;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class MandangoDocumentChoiceList extends ArrayChoiceList
+class MandangoDocumentChoiceList extends SimpleChoiceList
 {
     private $mandango;
     private $class;
@@ -37,6 +37,7 @@ class MandangoDocumentChoiceList extends ArrayChoiceList
         $this->query = $query;
 
         parent::__construct($choices);
+	    $this->load();
     }
 
     public function getDocuments()
@@ -50,10 +51,10 @@ class MandangoDocumentChoiceList extends ArrayChoiceList
 
     protected function load()
     {
-        parent::load();
+        //parent::load();
 
-        if ($this->choices) {
-            $documents = $this->choices;
+        if ($this->getChoices()) {
+            $documents = $this->getChoices();
         } elseif ($this->query) {
             $documents = $this->query->all();
         } else {
@@ -61,7 +62,8 @@ class MandangoDocumentChoiceList extends ArrayChoiceList
         }
         $this->documents = $documents;
 
-        $this->choices = array();
+        $choices = array();
+	    $labels = array();
         foreach ($documents as $document) {
             if (null !== $this->field) {
                 $value = $this->field;
@@ -71,7 +73,10 @@ class MandangoDocumentChoiceList extends ArrayChoiceList
                 $value = $document->getId();
             }
 
-            $this->choices[(string) $document->getId()] = $value;
+	        $array = array();
+	        $labels[(string) $document->getId()] = (string) $document->getId();
+	        $choices[(string) $document->getId()] = $value;
+	        $this->addChoice($array, $array, $value, (string) $document->getId(), array());
         }
     }
 }
