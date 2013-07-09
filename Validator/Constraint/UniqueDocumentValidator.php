@@ -128,8 +128,8 @@ class UniqueDocumentValidator extends ConstraintValidator
     private function addFieldViolation($field, $message)
     {
         $oldPath = $this->context->getPropertyPath();
-        $this->context->setPropertyPath(empty($oldPath) ? $field : $oldPath.'.'.$field);
-        $this->context->addViolation($message, array(), null);
-        $this->context->setPropertyPath($oldPath);
+//        $this->context->setPropertyPath(empty($oldPath) ? $field : $oldPath.'.'.$field);
+        $this->context->addViolationAtPath('children'.'['.$field.'].data', $message, array(), null);
+//        $this->context->setPropertyPath($oldPath);
     }
 }
